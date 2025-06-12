@@ -1,79 +1,21 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>আমার সেভিংস - হিসাব দেখুন</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 30px;
-    }
-    .progress-bar {
-      width: 100%;
-      background: #ddd;
-      border-radius: 25px;
-      overflow: hidden;
-      margin: 20px 0;
-      height: 30px;
-    }
-    .progress-fill {
-      height: 100%;
-      background: #4caf50;
-      text-align: center;
-      color: white;
-      line-height: 30px;
-      transition: width 0.5s ease-in-out;
-    }
-    .loading {
-      color: gray;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savings Tracker</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
 </head>
 <body>
-  <h1>আমার সেভিংস</h1>
-  <p>মোট লক্ষ্য: <span id="targetAmount" class="loading">লোড হচ্ছে...</span> টাকা</p>
-  <p>জমা হয়েছে: <span id="savedAmount" class="loading">লোড হচ্ছে...</span> টাকা</p>
-  <p>বাকি আছে: <span id="remainingAmount" class="loading">লোড হচ্ছে...</span> টাকা</p>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressBar">0%</div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDsDXIh9ip9B2LnvVixehAzy1Xi1ZfPh5A",
-      authDomain: "my-savings-tracker-2c24c.firebaseapp.com",
-      databaseURL: "https://my-savings-tracker-2c24c-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "my-savings-tracker-2c24c",
-      storageBucket: "my-savings-tracker-2c24c.appspot.com",
-      messagingSenderId: "1062511702048",
-      appId: "1:1062511702048:web:b8876ecc0f123ccd5c8c45",
-      measurementId: "G-2C534NYLL8"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const savingsRef = ref(db, 'savings');
-
-    onValue(savingsRef, (snapshot) => {
-      const data = snapshot.val();
-      const target = data?.target || 0;
-      const saved = data?.saved || 0;
-      const remaining = target - saved;
-      const percentage = target > 0 ? Math.floor((saved / target) * 100) : 0;
-
-      document.getElementById('targetAmount').textContent = target;
-      document.getElementById('savedAmount').textContent = saved;
-      document.getElementById('remainingAmount').textContent = remaining;
-
-      const progress = document.getElementById('progressBar');
-      progress.style.width = percentage + '%';
-      progress.textContent = percentage + '%';
-    });
+  <h1>Savings Tracker</h1>
+  <p>Welcome to your savings tracker app!</p>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => {
+        console.log("Service Worker Registered");
+      });
+    }
   </script>
 </body>
 </html>
