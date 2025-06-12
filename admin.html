@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সেভিংস আপডেট করুন</title>
+</head>
+<body>
+  <h1>সেভিংস আপডেট করুন</h1>
+
+  <label for="target">লক্ষ্য (টাকা):</label>
+  <input type="number" id="target" placeholder="যেমনঃ 10000"><br><br>
+
+  <label for="saved">জমা হয়েছে (টাকা):</label>
+  <input type="number" id="saved" placeholder="যেমনঃ 3000"><br><br>
+
+  <button onclick="updateSavings()">আপডেট করুন</button>
+
+  <div id="message"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDsDXIh9ip9B2LnvVixehAzy1Xi1ZfPh5A",
+      authDomain: "my-savings-tracker-2c24c.firebaseapp.com",
+      databaseURL: "https://my-savings-tracker-2c24c-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "my-savings-tracker-2c24c",
+      storageBucket: "my-savings-tracker-2c24c.firebasestorage.app",
+      messagingSenderId: "1062511702048",
+      appId: "1:1062511702048:web:b8876ecc0f123ccd5c8c45",
+      measurementId: "G-2C534NYLL8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.updateSavings = function () {
+      const target = document.getElementById('target').value;
+      const saved = document.getElementById('saved').value;
+
+      set(ref(db, 'savings'), {
+        target: Number(target),
+        saved: Number(saved)
+      }).then(() => {
+        document.getElementById('message').textContent = 'সফলভাবে আপডেট হয়েছে!';
+      }).catch((error) => {
+        document.getElementById('message').textContent = 'আপডেট ব্যর্থ: ' + error;
+      });
+    };
+  </script>
+</body>
+</html>
